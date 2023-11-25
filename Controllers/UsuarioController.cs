@@ -10,7 +10,11 @@ namespace CourtBooker.Controllers
     [ApiController]
     public class UsuarioController : ControllerBase
     {
-        private UsuarioService _service = new();
+        private readonly UsuarioService _service;
+        public UsuarioController(UsuarioService service)
+        {
+            _service = service;
+        }
 
         [HttpGet]
         public async Task<ActionResult<List<Usuario>>> ListarUsuarios()

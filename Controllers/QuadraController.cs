@@ -8,14 +8,18 @@ namespace CourtBooker.Controllers
     [ApiController]
     public class QuadraController : ControllerBase
     {
-        private QuadraService _service = new();
+        private readonly QuadraService _service;
+        public QuadraController(QuadraService service)
+        {
+            _service = service;
+        }
 
         [HttpGet]
         public async Task<ActionResult<List<Quadra>>> ListarQuadras()
         {
             return await Task.Run(ActionResult<List<Quadra>> () =>
             {
-                List<Quadra> result = _service.ListarQuadras();
+                var result = _service.ListarQuadras();
                 return Ok(result);
             });
         }
@@ -25,7 +29,7 @@ namespace CourtBooker.Controllers
         {
             return await Task.Run(ActionResult<Quadra> () =>
             {
-                Quadra? result = _service.BuscarQuadra(id);
+                var result = _service.BuscarQuadra(id);
                 return Ok(result);
             });
         }
@@ -35,7 +39,7 @@ namespace CourtBooker.Controllers
         {
             return await Task.Run(ActionResult<Quadra> () =>
             {
-                Quadra result = _service.AdicionarQuadra(quadra);
+                var result = _service.AdicionarQuadra(quadra);
                 return CreatedAtAction(nameof(AdicionarQuadra), result);
             });
         }
@@ -45,7 +49,7 @@ namespace CourtBooker.Controllers
         {
             return await Task.Run(ActionResult<Quadra> () =>
             {
-                bool result = _service.AdicionarQuadraEsporte(idQuadra, idEsporte);
+                var result = _service.AdicionarQuadraEsporte(idQuadra, idEsporte);
                 return Ok(result);
             });
         }
@@ -55,7 +59,7 @@ namespace CourtBooker.Controllers
         {
             return await Task.Run(ActionResult<Quadra> () =>
             {
-                bool result = _service.ExcluirQuadraEsporte(idQuadra, idEsporte);
+                var result = _service.ExcluirQuadraEsporte(idQuadra, idEsporte);
                 return Ok(result);
             });
         }
@@ -65,7 +69,7 @@ namespace CourtBooker.Controllers
         {
             return await Task.Run(IActionResult () =>
             {
-                bool result = _service.ExcluirQuadra(id);
+                var result = _service.ExcluirQuadra(id);
                 return Ok(result);
             });
         }

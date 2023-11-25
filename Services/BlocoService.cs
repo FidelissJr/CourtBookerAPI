@@ -1,38 +1,30 @@
 ﻿using CourtBooker.Model;
-using Dapper;
+using CourtBooker.Repositories.Interfaces;
 
 namespace CourtBooker.Services
 {
-    public class BlocoService : BaseRepository
+    public class BlocoService
     {
+        private readonly IBlocoService _repository;
+
+        public BlocoService(IBlocoService repository)
+        {
+            _repository = repository;
+        }
+
         public List<Bloco> ListarBlocos()
         {
-
-            return WithConnection(dbConn =>
-            {
-                string sql = "SELECT * FROM bloco";
-                return dbConn.Query<Bloco>(sql).ToList();
-            });
-
+            return _repository.ListarBlocos();
         }
 
         public Bloco AdicionarBloco(Bloco bloco)
         {
-            return WithConnection(dbConn =>
-            {
-                string sql = "INSERT INTO bloco (nome) VALUES (@Nome) RETURNING *";
-                return dbConn.QuerySingle<Bloco>(sql, bloco);
-            });
+            return _repository.AdicionarBloco(bloco);
         }
 
         public bool ExcluirBloco(int id)
         {
-            return WithConnection(dbConn =>
-            {
-                string sql = "Delete from bloco WHERE id = @Id";
-                int rowsAffected = dbConn.Execute(sql, new { Id = id });
-                return rowsAffected > 0;
-            });
+            return _repository.ExcluirBloco(id);
         }
     }
 }

@@ -1,13 +1,13 @@
 ﻿using Npgsql;
 using System.Data;
 
-namespace CourtBooker.Services
+namespace CourtBooker.Repositories.Postgres
 {
-    public abstract class BaseRepository
+    public abstract class PostgresRepository
     {
         private readonly string _connectionString = "User ID=postgres;Password=sa@123;Host=localhost;Port=5432;Database=CourtBooker;";
 
-        protected BaseRepository()
+        protected PostgresRepository()
         {
         }
 

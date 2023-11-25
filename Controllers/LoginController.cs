@@ -2,9 +2,6 @@
 using CourtBooker.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
-using System.Security.Cryptography;
-using System.Text;
 
 namespace CourtBooker.Controllers
 {
@@ -14,10 +11,17 @@ namespace CourtBooker.Controllers
     {
         private readonly IConfiguration _configuration;
 
+        private readonly UsuarioService _usuarioService;
+        public AuthController(UsuarioService usuarioService)
+        {
+            _usuarioService = usuarioService;
+        }
+
+
         [HttpPost("login")]
         public IActionResult Login(string cpf, string senha)
         {
-            Usuario? usuario = new UsuarioService().BuscarUsuario(cpf);
+            Usuario? usuario = _usuarioService.BuscarUsuario(cpf);
 
             if (usuario != null)
             {

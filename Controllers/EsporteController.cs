@@ -8,23 +8,28 @@ namespace CourtBooker.Controllers
     [ApiController]
     public class EsporteController : ControllerBase
     {
-        private EsporteService _service = new();
+        private readonly EsporteService _service;
+        public EsporteController(EsporteService service)
+        {
+            _service = service;
+        }
 
         [HttpGet]
         public async Task<ActionResult<List<Esporte>>> ListarEsportes()
         {
             return await Task.Run(ActionResult<List<Esporte>> () =>
             {
-                List<Esporte> result = _service.ListarEsportes();
+                var result = _service.ListarEsportes();
                 return Ok(result);
             });
         }
+
         [HttpPost]
         public async Task<ActionResult<Esporte>> AdicionarEsporte([FromBody] Esporte esporte)
         {
             return await Task.Run(ActionResult<Esporte> () =>
             {
-                Esporte result = _service.AdicionarEsporte(esporte);
+                var result = _service.AdicionarEsporte(esporte);
                 return CreatedAtAction(nameof(AdicionarEsporte), esporte);
             });
         }
@@ -34,7 +39,7 @@ namespace CourtBooker.Controllers
         {
             return await Task.Run(IActionResult () =>
             {
-                bool result = _service.ExcluirEsporte(id);
+                var result = _service.ExcluirEsporte(id);
                 return Ok(result);
             });
         }

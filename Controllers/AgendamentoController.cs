@@ -9,12 +9,13 @@ namespace CourtBooker.Controllers
     [ApiController]
     public class AgendamentoController : ControllerBase
     {
-        private AgendamentoService _service = new();
         private readonly IEmailSender _emailSender;
+        private readonly AgendamentoService _service;
 
-        public AgendamentoController(IEmailSender emailSender)
+        public AgendamentoController(IEmailSender emailSender, AgendamentoService service)
         {
             _emailSender = emailSender;
+            _service = service;
         }
 
         [HttpGet]
@@ -49,7 +50,6 @@ namespace CourtBooker.Controllers
             });
         }
 
-
         [HttpDelete("{id}")]
         public async Task<IActionResult> ExcluirAgendamento(int id)
         {
@@ -62,7 +62,6 @@ namespace CourtBooker.Controllers
                 return Ok(result);
             });
         }
-
 
         [HttpGet("ListarDiasSemana")]
         public async Task<ActionResult<List<EnumValueDescription>>> ListarDiasSemana()

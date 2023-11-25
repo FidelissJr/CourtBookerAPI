@@ -8,14 +8,19 @@ namespace CourtBooker.Controllers
     [ApiController]
     public class BlocoController : ControllerBase
     {
-        private BlocoService _service = new();
+        private readonly BlocoService _service;
+
+        public BlocoController(BlocoService service)
+        {
+            _service = service;
+        }
 
         [HttpGet]
         public async Task<ActionResult<List<Bloco>>> ListarBlocos()
         {
             return await Task.Run(ActionResult<List<Bloco>> () =>
             {
-                List<Bloco> result = _service.ListarBlocos();
+                var result = _service.ListarBlocos();
                 return Ok(result);
             });
         }
@@ -24,7 +29,7 @@ namespace CourtBooker.Controllers
         {
             return await Task.Run(ActionResult<Bloco> () =>
             {
-                Bloco result = _service.AdicionarBloco(bloco);
+                var result = _service.AdicionarBloco(bloco);
                 return CreatedAtAction(nameof(AdicionarBloco), result);
             });
         }
@@ -34,7 +39,7 @@ namespace CourtBooker.Controllers
         {
             return await Task.Run(IActionResult () =>
             {
-                bool result = _service.ExcluirBloco(id);
+                var result = _service.ExcluirBloco(id);
                 return Ok(result);
             });
         }

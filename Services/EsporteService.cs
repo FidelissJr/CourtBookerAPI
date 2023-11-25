@@ -1,38 +1,29 @@
 ﻿using CourtBooker.Model;
-using Dapper;
+using CourtBooker.Repositories.Interfaces;
 
 namespace CourtBooker.Services
 {
-    public class EsporteService : BaseRepository
+    public class EsporteService
     {
+        private readonly IEsporteService _repository;
+
+        public EsporteService(IEsporteService repository)
+        {
+            _repository = repository;
+        }
         public List<Esporte> ListarEsportes()
         {
-
-            return WithConnection(dbConn =>
-            {
-                string sql = "SELECT * FROM tipoesporte";
-                return dbConn.Query<Esporte>(sql).ToList();
-            });
-
+            return _repository.ListarEsportes();
         }
 
         public Esporte AdicionarEsporte(Esporte esporte)
         {
-            return WithConnection(dbConn =>
-            {
-                string sql = "INSERT INTO tipoesporte (nome) VALUES (@Nome) RETURNING *";
-                return dbConn.QuerySingle<Esporte>(sql, esporte);
-            });
+            return _repository.AdicionarEsporte(esporte);
         }
 
         public bool ExcluirEsporte(int id)
         {
-            return WithConnection(dbConn =>
-            {
-                string sql = "Delete from tipoesporte WHERE id = @Id";
-                int rowsAffected = dbConn.Execute(sql, new { Id = id });
-                return rowsAffected > 0;
-            });
+            return _repository.ExcluirEsporte(id);
         }
     }
 }
