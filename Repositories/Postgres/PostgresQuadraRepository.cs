@@ -10,7 +10,7 @@ namespace CourtBooker.Repositories.Postgres
         {
             return WithConnection(dbConn =>
             {
-                string sql = QuerySelectAllAgendamento();
+                string sql = QuerySelectAllQuadra();
                 return dbConn.Query<Quadra>(sql).ToList();
             });
         }
@@ -18,7 +18,7 @@ namespace CourtBooker.Repositories.Postgres
         {
             return WithConnection(dbConn =>
             {
-                string sql = QuerySelectAllAgendamento();
+                string sql = QuerySelectAllQuadra();
                 sql += " WHERE id = @Id";
                 return dbConn.QueryFirstOrDefault<Quadra>(sql, new { Id = id });
             });
@@ -63,7 +63,7 @@ namespace CourtBooker.Repositories.Postgres
             });
         }
 
-        public static string QuerySelectAllAgendamento()
+        public static string QuerySelectAllQuadra()
         {
             return "SELECT q.nome, q.id, q.id_bloco as idBloco, qte.idTiposEsporte FROM quadra q LEFT JOIN " +
                 "(SELECT id_quadra, array_agg(id_tipo_esporte) AS idTiposEsporte FROM quadra_tipoesporte " +

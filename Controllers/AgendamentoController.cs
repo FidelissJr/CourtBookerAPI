@@ -1,5 +1,6 @@
 ﻿using CourtBooker.Enuns;
 using CourtBooker.Model;
+using CourtBooker.Repositories.Interfaces;
 using CourtBooker.Services;
 using Microsoft.AspNetCore.Mvc;
 

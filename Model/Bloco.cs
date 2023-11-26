@@ -1,4 +1,6 @@
-﻿namespace CourtBooker.Model
+﻿using MongoDB.Bson.Serialization.Attributes;
+
+namespace CourtBooker.Model
 {
     public class Bloco
     {

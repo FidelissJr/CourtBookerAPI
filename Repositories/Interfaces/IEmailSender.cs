@@ -1,4 +1,4 @@
-﻿namespace CourtBooker
+﻿namespace CourtBooker.Repositories.Interfaces
 {
     public interface IEmailSender
     {

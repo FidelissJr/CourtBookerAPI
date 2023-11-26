@@ -1,9 +1,10 @@
 ﻿using System.Net.Mail;
 using System.Net;
+using CourtBooker.Repositories.Interfaces;
 
-namespace CourtBooker
+namespace CourtBooker.Services
 {
-    public class EmailSender : IEmailSender
+    public class EmailSenderService : IEmailSender
     {
         public async Task SendEmailAsync(string email, string subject, string message)
         {
