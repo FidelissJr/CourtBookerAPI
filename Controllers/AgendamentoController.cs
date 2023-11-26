@@ -39,15 +39,25 @@ namespace CourtBooker.Controllers
             });
         }
 
-        [HttpPost]
-        public async Task<ActionResult<Agendamento>> AdicionarAgendamento([FromBody] Agendamento agendamento)
+        [HttpGet("BuscarAgendamento/{id}")]
+        public async Task<ActionResult<Agendamento?>> BuscarAgendamento(int id)
         {
-            return await Task.Run(ActionResult<Agendamento> () =>
+            return await Task.Run(ActionResult<Agendamento?> () =>
             {
-                _service.ValidarAgendamento(agendamento);
+                Agendamento? result = _service.BuscarAgendamento(id);
+                return Ok(result);
+            });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AdicionarAgendamento([FromBody] Agendamento agendamento)
+        {
+            return await Task.Run(IActionResult () =>
+            {
+                var result = _service.ValidarAgendamento(agendamento);
                 _service.GetEmailMessage(agendamento, out string message, out string receiver, out string subject, false);
                 _emailSender.SendEmailAsync(receiver, subject, message);
-                return CreatedAtAction(nameof(AdicionarAgendamento), new {agendamento});
+                return CreatedAtAction(nameof(AdicionarAgendamento), result);
             });
         }
 

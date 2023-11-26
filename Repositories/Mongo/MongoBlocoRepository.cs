@@ -16,8 +16,7 @@ namespace CourtBooker.Repositories.Mongo
         public Bloco AdicionarBloco(Bloco bloco)
         {
             bloco.Id = new Random().Next();
-            var collection = database.GetCollection<Bloco>("bloco");
-            collection.InsertOne(bloco);
+            _collection.InsertOne(bloco);
             return bloco;
         }
  

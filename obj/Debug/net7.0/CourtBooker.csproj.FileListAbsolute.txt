@@ -34,3 +34,16 @@ C:\Users\andre\source\repos\CourtBooker\obj\Debug\net7.0\ref\CourtBooker.dll
 C:\Users\andre\source\repos\CourtBooker\bin\Debug\net7.0\Dapper.dll
 C:\Users\andre\source\repos\CourtBooker\bin\Debug\net7.0\Newtonsoft.Json.dll
 C:\Users\andre\source\repos\CourtBooker\bin\Debug\net7.0\Npgsql.dll
+C:\Users\andre\source\repos\CourtBooker\bin\Debug\net7.0\AWSSDK.Core.dll
+C:\Users\andre\source\repos\CourtBooker\bin\Debug\net7.0\AWSSDK.SecurityToken.dll
+C:\Users\andre\source\repos\CourtBooker\bin\Debug\net7.0\DnsClient.dll
+C:\Users\andre\source\repos\CourtBooker\bin\Debug\net7.0\MongoDB.Bson.dll
+C:\Users\andre\source\repos\CourtBooker\bin\Debug\net7.0\MongoDB.Driver.dll
+C:\Users\andre\source\repos\CourtBooker\bin\Debug\net7.0\MongoDB.Driver.Core.dll
+C:\Users\andre\source\repos\CourtBooker\bin\Debug\net7.0\MongoDB.Libmongocrypt.dll
+C:\Users\andre\source\repos\CourtBooker\bin\Debug\net7.0\SharpCompress.dll
+C:\Users\andre\source\repos\CourtBooker\bin\Debug\net7.0\Snappier.dll
+C:\Users\andre\source\repos\CourtBooker\bin\Debug\net7.0\ZstdSharp.dll
+C:\Users\andre\source\repos\CourtBooker\bin\Debug\net7.0\runtimes\linux\native\libmongocrypt.so
+C:\Users\andre\source\repos\CourtBooker\bin\Debug\net7.0\runtimes\osx\native\libmongocrypt.dylib
+C:\Users\andre\source\repos\CourtBooker\bin\Debug\net7.0\runtimes\win\native\mongocrypt.dll

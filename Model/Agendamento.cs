@@ -17,7 +17,7 @@ namespace CourtBooker.Model
         [Required(ErrorMessage = "O campo Cpf é obrigatório e não pode ser deixado em branco")]
         public string CpfUsuario { get; set; }
         [Required(ErrorMessage = "O campo Quadra é obrigatório e não pode ser deixado em branco")]
-        public int IdQUadra { get; set; }
+        public int IdQuadra { get; set; }
         public EnumStatusAgendamento StatusAgendamento { get; set; }
         public string StatusAgendamentoAux => StatusAgendamento.ToString().ToLower();
         [EmailAddress]
@@ -40,7 +40,7 @@ namespace CourtBooker.Model
             DataInicio = dataInicio;
             DataFim = dataFim;
             CpfUsuario = cpfUsuario;
-            IdQUadra = idQUadra;
+            IdQuadra = idQUadra;
             StatusAgendamento = statusAgendamento;
             EmailUsuario = emailUsuario;
             Presenca = presenca;

@@ -36,7 +36,16 @@ namespace CourtBooker.Repositories.Mongo
                 }
             };
 
-            var unwind = new BsonDocument("$unwind", "$esportesRelacionados");
+            var unwind = new BsonDocument
+            {
+                {
+                    "$unwind", new BsonDocument
+                    {
+                        { "path", "$esportesRelacionados" },
+                        { "preserveNullAndEmptyArrays", true }
+                    }
+                }
+            };
 
             var group = new BsonDocument
             {

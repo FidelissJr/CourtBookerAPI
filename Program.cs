@@ -27,18 +27,19 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddTransient<IEmailSender, EmailSenderService>();
 
+//Postgres
 //builder.Services.AddScoped<IUsuarioService, PostgresUsuarioRepository>();
 //builder.Services.AddScoped<IBlocoService, PostgresBlocoRepository>();
 //builder.Services.AddScoped<IEsporteService, PostgresEsporteRepository>();
 //builder.Services.AddScoped<IQuadraService, PostgresQuadraRepository>();
-builder.Services.AddScoped<IAgendamentoService, PostgresAgendamentoRepository>();
+//builder.Services.AddScoped<IAgendamentoService, PostgresAgendamentoRepository>();
 
 //MongoDB
 builder.Services.AddScoped<IUsuarioService, MongoUsuarioRepository>();
 builder.Services.AddScoped<IBlocoService, MongoBlocoRepository>();
 builder.Services.AddScoped<IEsporteService, MongoEsporteRepository>();
 builder.Services.AddScoped<IQuadraService, MongoQuadraRepository>();
-//builder.Services.AddScoped<IAgendamentoService, PostgresAgendamentoRepository>();
+builder.Services.AddScoped<IAgendamentoService, MongoAgendamentoRepository>();
 
 
 builder.Services.AddScoped<UsuarioService>();

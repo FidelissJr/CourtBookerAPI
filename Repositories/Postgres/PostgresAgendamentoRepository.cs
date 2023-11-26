@@ -12,7 +12,7 @@ namespace CourtBooker.Repositories.Postgres
         {
             return WithConnection(dbConn =>
             {
-                string sql = GetQuery(agendamento);
+                string sql = CriarComandosInsert(new List<Agendamento> { agendamento });
                 return dbConn.QuerySingle<Agendamento>(sql, agendamento);
             });
         }
@@ -47,13 +47,13 @@ namespace CourtBooker.Repositories.Postgres
             });
         }
 
-        public bool AdicionarEvento(Agendamento agendamento)
+        public List<Agendamento> AdicionarEvento(List<Agendamento> agendamentos)
         {
             return WithConnection(dbConn =>
             {
-                string sql = GetQuery(agendamento);
+                string sql = CriarComandosInsert(agendamentos);
                 int rowsAffected = dbConn.Execute(sql);
-                return rowsAffected > 0;
+                return agendamentos;
             });
         }
 
@@ -66,7 +66,6 @@ namespace CourtBooker.Repositories.Postgres
                 return dbConn.QueryFirstOrDefault<Agendamento>(sql, new { Id = id });
             });
         }
-
         public Agendamento? VerificaAgendamentoUsuarioExistente(DateTime dataInicial, string cpf)
         {
             return WithConnection(dbConn =>
@@ -81,53 +80,6 @@ namespace CourtBooker.Repositories.Postgres
             return "SELECT a.id, emailUsuario, cpf_usuario AS CpfUsuario, id_quadra AS IdQuadra, status as StatusAgendamento, dataInicial as DataInicio, dataFinal as DataFim, " +
                 "horario_inicial AS HorarioInicial, horario_final as HorarioFinal, presenca, recorrente, evento, diasSemana FROM agendamento a";
         }
-        public static List<Agendamento> GerarEventosSemanais(Agendamento agendamento)
-        {
-            var eventos = new List<Agendamento>();
-
-            for (var dt = agendamento.DataInicio; dt <= agendamento.DataFim; dt = dt.AddDays(1))
-            {
-                if (agendamento.DiasSemana.Contains((int)dt.DayOfWeek))
-                {
-                    agendamento.DataInicio = dt;
-                    eventos.Add(new Agendamento(
-                      agendamento.HorarioInicial,
-                      agendamento.HorarioFinal,
-                      dt,
-                      agendamento.DataFim.GetValueOrDefault(),
-                      agendamento.CpfUsuario,
-                      agendamento.IdQUadra,
-                      agendamento.StatusAgendamento,
-                      agendamento.EmailUsuario,
-                      agendamento.Presenca,
-                      agendamento.Evento,
-                      agendamento.Recorrente,
-                      agendamento.DiasSemana
-                    ));
-                }
-            }
-
-            return eventos;
-        }
-
-        private static string GetQuery(Agendamento agendamento)
-        {
-            string sql;
-
-            if (!agendamento.Evento && agendamento.Recorrente)
-                throw new BadHttpRequestException("Agendamentos não podem ser recorrentes. Torne-o um Evento");
-
-            if (agendamento.Evento && agendamento.Recorrente)
-            {
-                List<Agendamento> lista = GerarEventosSemanais(agendamento);
-                sql = CriarComandosInsert(lista);
-            }
-            else
-                sql = CriarComandosInsert(new List<Agendamento> { agendamento });
-
-            return sql;
-        }
-
         public static string CriarComandosInsert(List<Agendamento> eventos)
         {
             var comandos = new List<string>();
@@ -140,7 +92,7 @@ namespace CourtBooker.Repositories.Postgres
                 string comando = "INSERT INTO agendamento (cpf_usuario, id_quadra, status, dataInicial, dataFinal, horario_inicial, horario_final, emailUsuario, presenca, evento, recorrente, diasSemana) " +
                                  "VALUES (" +
                                  $"'{evento.CpfUsuario}', " +
-                                 $"{evento.IdQUadra}, " +
+                                 $"{evento.IdQuadra}, " +
                                  $"CAST('{evento.StatusAgendamentoAux}' AS status_agendamento), " +
                                  $"'{evento.DataInicio.ToString("yyyy-MM-dd")}', " +
                                  $"'{evento.DataFim.GetValueOrDefault().ToString("yyyy-MM-dd")}', " +
