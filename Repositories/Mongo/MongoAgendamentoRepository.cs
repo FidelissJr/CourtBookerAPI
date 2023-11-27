@@ -11,7 +11,7 @@ namespace CourtBooker.Repositories.Mongo
         public Agendamento? BuscarAgendamento(int id)
         {
             var filter = Builders<Agendamento>.Filter.Eq(c => c.Id, id);
-            return _collection.Find(filter).FirstOrDefault(); 
+            return _collection.Find(filter).FirstOrDefault();
         }
         public List<Agendamento> ListarAgendamentos()
         {
@@ -61,7 +61,7 @@ namespace CourtBooker.Repositories.Mongo
             };
 
             return _collection.Aggregate<Agendamento>(pipeline).ToList();
-  
+
         }
         public Agendamento? VerificaAgendamentoUsuarioExistente(DateTime dataInicial, string cpf)
         {
@@ -71,15 +71,17 @@ namespace CourtBooker.Repositories.Mongo
         }
         public Agendamento AdicionarAgendamento(Agendamento agendamento)
         {
+            ListarAgendamentosQuadraDia(agendamento.IdQuadra, agendamento);
+
             agendamento.Id = new Random().Next();
             _collection.InsertOne(agendamento);
             return agendamento;
         }
         public List<Agendamento> AdicionarEvento(List<Agendamento> agendamentos)
         {
-            foreach(Agendamento a in agendamentos)          
+            foreach (Agendamento a in agendamentos)
                 AdicionarAgendamento(a);
-      
+
             return agendamentos;
         }
         public bool ExcluirAgendamento(int id)
@@ -87,6 +89,26 @@ namespace CourtBooker.Repositories.Mongo
             var deleteFilter = Builders<Agendamento>.Filter.Eq(u => u.Id, id);
             _collection.DeleteOne(deleteFilter);
             return true;
+        }
+
+        public void ListarAgendamentosQuadraDia(int idQuadra, Agendamento agendamento)
+        {
+            var builder = Builders<Agendamento>.Filter;
+            var filtro = builder.Eq(agendamento => agendamento.IdQuadra, idQuadra) &
+                         builder.Eq(agendamento => agendamento.DataInicio, agendamento.DataInicio);
+                
+
+            List<Agendamento> agendamentos = _collection.Find(filtro).ToList();
+
+            foreach (var a in agendamentos)
+            {
+                if (a.HorarioInicial < agendamento.HorarioFinal && a.HorarioFinal > agendamento.HorarioInicial)
+                {
+                    throw new BadHttpRequestException("Choque de Horário!");
+                }
+                // Faça algo com cada agendamento
+                Console.WriteLine(agendamento.Id);
+            }
         }
     }
 }
